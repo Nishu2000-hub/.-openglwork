@@ -1,0 +1,318 @@
+#include<GL/glut.h> //for glut libraries
+#include<stdio.h>   //for printf functions used
+#include<stdlib.h> //for random function
+#include<string.h>  //for string use character
+#define LIGHT_ON 0
+#define LIGHT_OFF 1
+
+int lightflag=0;
+void init()
+{
+	glClearColor(1,1,1,1);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-2,2,-2,2,-2,2);
+	glMatrixMode(GL_MODELVIEW);  //😀️
+	
+}
+
+void lighting()
+{
+	GLfloat shininess[] = {50};
+	GLfloat white[] = {0.6,0.6,0.6,1};
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
+	GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
+	GLfloat light_position[] = {100,60, 10, 0.0 };
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, white);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, white);
+	glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
+	glEnable(GL_LIGHT0);
+}
+
+void ball()
+{
+	glColor3f(1,0,0);
+
+        glutWireSphere(0.2,25,25); //😀️
+}
+
+
+
+void basket()
+{
+	glColor3f(0,1,0);
+	glutWireCone(0.3,0.5,25,25);
+}
+ float ballx=0,bally=1.8,basketx=0,baskety=-1.5,pollx=0.6,polly=1.8;
+ int  rand(),r,flagout=0;   //r to store the random for when ball reaches basket it will random generate from above.//flag for if ball reaches -1.6 at basket to stop the ball
+  float ballspeed=0,count=0;
+void display()
+
+
+{
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	
+	if(lightflag)glEnable(GL_LIGHTING);
+	glLoadIdentity();  // for 😀️animation
+	
+	printf("ballx=%f\n",ballx);
+		printf("bally=%f\n",bally);
+			printf("basketx=%f\n",basketx);
+				printf("baskety=%f\n",baskety);
+				
+	if(count==3)
+	{
+	ballspeed+=0.01;
+	count=0;
+	}
+				
+	if(bally<-1.6 && ballx>basketx-0.3 && ballx<basketx+0.3)
+	{
+	count++;    //everytime when ball hit basket count incremented
+	bally=1.8;
+	r=rand()%4; //any random number from 0 to 3 will be generated
+	if(r==0)
+	{
+	  ballx=-1.8;
+	  pollx=-1.8+0.6;
+	  
+	}
+	if(r==1)
+	{
+	  ballx=-1;
+	  	  pollx=-1+0.6;
+	}
+	if(r==2)
+	{
+	  ballx=1;
+	  	  pollx=1+0.6;
+	  
+	}
+	if(r==3)
+	{
+	  ballx=1.8;
+	  	  pollx=1.8+0.6;
+	}
+	}
+	
+	if(flagout==0)
+	bally-=0.01+ballspeed; 
+	
+	if(bally<-2)
+	{
+	flagout=1;
+	}
+	glPushMatrix(); //because ball as well as basket translate so to avoid that
+	glTranslatef(ballx,bally,0); //😀️tranlsate ball on yaxis 
+	ball();
+	glPopMatrix();
+
+	glPushMatrix(); //other functions not affected
+	glTranslatef(basketx,baskety,0);
+	glRotatef(90,1,0,0);  //rotate basket 90 about y
+	basket();
+	glPopMatrix();
+	
+	
+	
+ //create poll
+	glPushMatrix();
+	glTranslatef(pollx,polly,0);	
+	glScalef(1.9,0.8,1);
+	glColor3f(0,1,1);
+	glutSolidCube(0.5);
+	glutSolidTorus(0.1,0.2,4,4);
+	glPopMatrix();
+
+glutSwapBuffers();
+glutPostRedisplay();
+
+}
+
+void welcomeDisplay()
+{
+
+
+glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+glColor3f(1,0,0);
+glRasterPos3f(-0.8,1.5,0);
+char msg1[]="Acharya institute of technology";
+for(int i=0; i<strlen(msg1);i++)
+
+glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, msg1[i]); //nothing will view so first i have to make cursor to make to that i use raster pos
+
+glRasterPos3f(-1.8,1,0);
+char msg2[]="Department of Computer Science";
+for(int i=0; i<strlen(msg2);i++)
+
+glutBitmapCharacter(GLUT_BITMAP_9_BY_15, msg2[i]); 
+
+
+glRasterPos3f(-1.8,0,0);
+char msg3[]="An OPENGL MINI PROJECT ON ";
+for(int i=0; i<strlen(msg3);i++)
+
+glutBitmapCharacter(GLUT_BITMAP_HELVETICA_10, msg3[i]);
+
+glColor3f(0,0,1);
+glRasterPos3f(-0.4,0,0);
+char msg4[]="BALL IN THE BASKET";
+for(int i=0; i<strlen(msg4);i++)
+
+glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, msg4[i]); 
+
+glRasterPos3f(-1.8,-1,0);
+char msg5[]="Submitted by:";
+for(int i=0; i<strlen(msg5);i++)
+
+glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, msg5[i]); 
+
+glRasterPos3f(-1.1,-1,0);
+char msg6[]="Rutik Panchal (1AY18CS096)";
+for(int i=0; i<strlen(msg6);i++)
+
+glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, msg6[i]);
+
+glRasterPos3f(-1.1,-1.1,0);
+char msg7[]="Sahil khandelwal (1AY18CS102)";
+for(int i=0; i<strlen(msg7);i++)
+
+glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, msg7[i]);
+
+
+glColor3f(0,1,0);
+glRasterPos3f(-0.8,-1.5,0);
+char msg8[]="Press X to Start the Game";
+for(int i=0; i<strlen(msg8);i++)
+
+glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, msg8[i]);      //character😀️
+
+glutSwapBuffers();
+
+}
+
+void skeys(int key,int x,int y)
+{
+	if(key==GLUT_KEY_LEFT)
+	{
+	basketx-=0.3;
+	}
+	if(key==GLUT_KEY_RIGHT)
+	{
+	basketx+=0.3;
+	}
+}
+
+void keys(unsigned char key,int x ,int y)
+{
+if(key=='x')
+{
+glutDisplayFunc(display);
+}
+glutPostRedisplay();
+}
+
+
+void mytimer(int val)
+{
+glutDisplayFunc(display);
+glutPostRedisplay();
+}
+
+void processstart(int option)
+{
+ glutDisplayFunc(display);
+ glutPostRedisplay();
+ }
+ 
+ void processMenuExit(int option)
+{
+	if(option==0)exit(0);
+}
+
+ void processMenuLighting(int option)
+{
+	switch(option)
+	{
+		case LIGHT_OFF:
+			glDisable(GL_LIGHTING);
+			lightflag=0;
+		break;
+		case LIGHT_ON:
+			glEnable(GL_LIGHTING);
+			lightflag=1;
+			lighting();
+		break;
+	}
+	glutPostRedisplay();
+}
+
+void processMenuBgColor(int option)
+{
+	switch(option)
+	{
+		case 0:glClearColor(0,0,0,0);break;
+		case 1:glClearColor(1,1,1,0);break;
+		case 2:glClearColor(1,0,0,0);break;
+		case 3:glClearColor(0,1,0,0);break;
+		case 4:glClearColor(0,0,1,0);break;
+	}
+	glutPostRedisplay();
+}
+
+
+
+ 
+ void processMenuMain1(int option)
+{
+}
+
+void createGLUTMenus1()
+{
+int menu = glutCreateMenu(processstart);
+glutAddMenuEntry("Run",0);
+int menuExit = glutCreateMenu(processMenuExit);
+	glutAddMenuEntry("Yes",0);
+	glutAddMenuEntry("No",1);
+	
+int menulight = glutCreateMenu(processMenuLighting);
+	glutAddMenuEntry("On",LIGHT_ON);
+	glutAddMenuEntry("Off",LIGHT_OFF);
+	
+int menuBgColor = glutCreateMenu(processMenuBgColor);
+	glutAddMenuEntry("Black",0);
+	glutAddMenuEntry("White",1);
+	glutAddMenuEntry("Red",2);
+	glutAddMenuEntry("Green",3);
+	glutAddMenuEntry("Blue",4);
+	
+
+	
+glutCreateMenu(processMenuMain1);
+	glutAddSubMenu("Start",menu);
+	glutAddSubMenu("Lightning",menulight);
+	glutAddSubMenu("Background Color",menuBgColor);
+	glutAddSubMenu("Exit",menuExit);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+
+}
+
+int main(int argc,char **argv)
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH);
+	glutInitWindowSize(500,500);
+	glutCreateWindow("Game");
+	init();
+	glutDisplayFunc(welcomeDisplay);
+	createGLUTMenus1();
+	glutSpecialFunc(skeys);  //😀️rather than keyboard use special because i have to link to //left and right button of keyboard
+	glutKeyboardFunc(keys);  // for press x to strat the game
+	glutTimerFunc(10000,mytimer,0);
+	glEnable(GL_DEPTH_TEST);
+	glutMainLoop();
+	return 0;
+}
