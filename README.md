@@ -10,3 +10,13 @@
 *Basic programs in opengl*
  - Spin a Color cube
  - Brehnman Line algorithm
+
+
+
+##Framework--Virtual Box
+**Ubuntu 20.04
+
+##Running commands for the programs and projects
+
+ -For compilation -> cc  filename.c -lGLUT -lGLU -lGL
+-For execution -> ./a.out
