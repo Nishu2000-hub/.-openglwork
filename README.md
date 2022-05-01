@@ -3,8 +3,10 @@
 *Opengl Ball and basket game project**
 
 
-<img width="255" alt="Capture" src="https://user-images.githubusercontent.com/81964222/166149648-4e5a6a6e-4785-4d47-b3c4-9e9c7fd8dd3b.PNG">
+<img width="468" alt="ball" src="https://user-images.githubusercontent.com/81964222/166151707-0e6009b6-2f1f-4e53-b9f3-7b9493fca1b1.PNG">
+<img width="390" alt="Capture2" src="https://user-images.githubusercontent.com/81964222/166151712-b8c58324-5d87-47d9-8587-c374690c8b37.PNG">
 
+<img width="229" alt="Capture3" src="https://user-images.githubusercontent.com/81964222/166151720-cbbc97e3-9989-46b7-9be9-38636f244367.PNG">
 
 
 *Basic programs in opengl*
