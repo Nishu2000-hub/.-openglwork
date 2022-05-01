@@ -14,10 +14,10 @@
 
 
 ## Framework
--Virtual Box
--**Ubuntu 20.04**
+- Virtual Box
+- **Ubuntu 20.04**
 
 ## Running commands for the programs and projects
 
--For compilation -> cc  filename.c -lGLUT -lGLU -lGL
--For execution -> ./a.out
+- For compilation -> cc  filename.c -lGLUT -lGLU -lGL
+- For execution -> ./a.out
